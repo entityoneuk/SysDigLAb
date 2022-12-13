@@ -4,8 +4,7 @@
             "timestamp": "2021-11-08T13:44:05+00:00",
             "rule": "Check image signature",
             "priority": "warning",
-            "output": "The image signature verification failed for image
-{{imagename}}",
+            "output": "The image signature verification failed for image {{imagename}}",
             "source": "Connaisseur AC",
             "tags": [
                 "foo",
