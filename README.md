@@ -24,4 +24,4 @@ c) Implement rules to BLOCK unsigned images in NAMESPACE "block", ALLOW unsigned
 
 Workflow & Diagram
 -------------------
-TBA
+TBA - Component Architecture
