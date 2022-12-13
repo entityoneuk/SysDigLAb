@@ -1,0 +1,15 @@
+nodeAnalyzer:
+  secure:
+    vulnerabilityManagement:
+      newEngineOnly: true
+  nodeAnalyzer:
+    benchmarkRunner:
+      deploy: false
+global:
+  sysdig:
+    accessKey: d7309652-1652-4362-8a0d-76ac1052651c
+    region: us4
+  kspm:
+    deploy: true
+  clusterConfig:
+    name: minikube
