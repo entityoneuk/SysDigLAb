@@ -2,20 +2,10 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: sysdig-agent
-data:
-  dragent.yaml: |
-    configmap: true
-    ### Agent tags
-    # tags: linux:ubuntu,dept:dev,local:nyc
-    #### Sysdig Software related config ####
-    # Sysdig collector address
-  collector: 34.145.123.253
-  #Collector TCP port
-  collector_port: 7765
-    # Whether collector accepts ssl
-    # ssl: true
-    # collector certificate validation
-    # ssl_verify_certificate: true
-    #######################################
-    # new_k8s: true
-    # k8s_cluster_name: production
+  data:
+    dragent.yaml: 
+        k8s_cluster_name: minikube
+        collector: ingest.us4.sysdig.com
+        collector_port: 7765
+        ssl: false
+        tags: department:davidb,region:us4
