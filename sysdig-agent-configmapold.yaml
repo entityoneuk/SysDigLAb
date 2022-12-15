@@ -1,14 +1,15 @@
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: sysdig-agent
 data:
   dragent.yaml: |
-    configmap: true
+      configmap: true
     ### Agent tags
     # tags: linux:ubuntu,dept:dev,local:nyc
     #### Sysdig Software related config ####
-    # Sysdig collector address
+    #Sysdig collector address
   collector: 34.145.123.253
   #Collector TCP port
   collector_port: 7765
