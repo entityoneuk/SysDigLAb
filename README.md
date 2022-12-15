@@ -36,7 +36,7 @@ OSX Implementation
 * Install Docker Agent
 
 docker run -d --name sysdig-agent --restart always --privileged --net host --pid host \
-    -e ACCESS_KEY=d7309652-1652-4362-8a0d-76ac1052651c \
+    -e ACCESS_KEY=$KEY \
     -e COLLECTOR=ingest.us4.sysdig.com \
     -e SECURE=true \
     -v /var/run/docker.sock:/host/var/run/docker.sock \
@@ -55,7 +55,7 @@ kubectl create ns sysdig-agent
 helm repo add sysdig https://charts.sysdig.com
 helm repo update
 helm install sysdig-agent --namespace sysdig-agent \
-    --set global.sysdig.accessKey=d7309652-1652-4362-8a0d-76ac1052651c \
+    --set global.sysdig.accessKey=$KEY \
     --set global.sysdig.region=us4 \
     --set nodeAnalyzer.secure.vulnerabilityManagement.newEngineOnly=true \
     --set global.kspm.deploy=true \
@@ -67,7 +67,7 @@ helm install sysdig-agent --namespace sysdig-agent \
 
  helm install sysdig sysdig/sysdig-deploy \
     --create-namespace -n sysdig \
-    --set global.sysdig.secureAPIToken=d7309652-1652-4362-8a0d-76ac1052651c\
+    --set global.sysdig.secureAPIToken=$KEY\
     --set global.clusterConfig.name=minikube \
     --set admissionController.sysdig.url=https://$SYSDIG_SECURE_ENDPOINT \
     --set admissionController.features.k8sAuditDetections=true \
@@ -89,14 +89,14 @@ helm install sysdig-agent --namespace sysdig-agent \
 
 USE THIS CURL COMMAND - REGION = app.us4.sysdig.com
 
-curl -H 'Content-Type: application/json' -H "Authorization: Bearer 09a33d76-aad9-4b8b-96a3-8b9ee7d9570a" -X POST "https://app.us4.sysdig.com/api/v1/eventsDispatch/ingest" -d @event.json
+curl -H 'Content-Type: application/json' -H "Authorization: Bearer $KEY -X POST "https://app.us4.sysdig.com/api/v1/eventsDispatch/ingest" -d @event.json
 
 
 kubectl create ns sysdig-agent
 helm repo add sysdig https://charts.sysdig.com
 helm repo update
 helm install sysdig-agent --namespace sysdig-agent \
-    --set global.sysdig.accessKey=d7309652-1652-4362-8a0d-76ac1052651c \
+    --set global.sysdig.accessKey=$KEY \
     --set global.sysdig.region=us4 \
     --set nodeAnalyzer.secure.vulnerabilityManagement.newEngineOnly=true \
     --set global.kspm.deploy=true \
