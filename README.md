@@ -97,11 +97,17 @@ helm repo add sysdig https://charts.sysdig.com
 helm repo update
 helm install sysdig-agent --namespace sysdig-agent \
     --set global.sysdig.accessKey=d7309652-1652-4362-8a0d-76ac1052651c \
-    --set global.sysdig.region=us2 \
+    --set global.sysdig.region=us4 \
     --set nodeAnalyzer.secure.vulnerabilityManagement.newEngineOnly=true \
     --set global.kspm.deploy=true \
     --set nodeAnalyzer.nodeAnalyzer.benchmarkRunner.deploy=false \
     --set global.clusterConfig.name=minikube \
+    sysdig/sysdig-deploy
+
+helm install \
+    --namespace sysdig-agent \
+    --set agent.sysdig.settings.tags='linux:ubuntu\,dept:dev\,local:nyc' \
+    --set global.clusterConfig.name='minikube' \
     sysdig/sysdig-deploy
 
 
