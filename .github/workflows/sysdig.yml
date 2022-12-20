@@ -15,12 +15,12 @@ jobs:
   build:
 
     runs-on: alpine-latest
-    permissions:
-      contents: read
-      packages: write
+    #permissions:
+     # contents: read
+      #packages: write
       # This is used to complete the identity challenge
       # with sigstore/fulcio when running outside of PRs.
-      id-token: write
+      #id-token: write
 
     #steps:
      # - name: Checkout repository
