@@ -1,0 +1,117 @@
+name: Docker
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+
+    runs-on: alpine-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
+    #steps:
+     # - name: Checkout repository
+      #  uses: actions/checkout@v3
+
+- name: Setup Docker buildx
+        uses: docker/setup-buildx-action@v1.6.10
+
+      - name: Log into registry ${{ env.REGISTRY }}
+        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@v1.6.10
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ github.actor }}/${{ env.IMAGE_NAME }}/${{ github.run_id }}
+
+      - name: cosign-installer
+  # You may pin to the exact commit or the version.
+  # uses: sigstore/cosign-installer@9becc617647dfa20ae7b1151972e9b3a2c338a2b
+  uses: sigstore/cosign-installer@v2.8.1
+  with:
+    # cosign release version to be installed
+    cosign-release: # optional, default is v1.13.1
+    # Where to install the cosign binary
+    install-dir: # optional, default is $HOME/.cosign
+    # set to true if install-dir location requires sudo privs
+    use-sudo: # optional, default is false
+            
+      # Sign the resulting Docker image digest except on PRs.
+
+      - name: Sign the published Docker image
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        
+        run: cosign sign --key cosign.key ${{ env.REGISTRY }}/${{ github.actor }}/${{ env.IMAGE_NAME }}/${{ github.run_id }}"
+        
+      - name: Write signing key to disk
+         run: 'echo "$KEY" > cosign.key'
+         shell: bash
+         env:
+         KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@79abd3f86f79a9d68a23c75a09a9a85889262adf
+
+      - name: Log into registry ${{ env.REGISTRY }}
+        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        id: build-and-push
+        uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ github.actor }}/${{ env.IMAGE_NAME }}/${{ github.run_id }}
+
+      - name: cosign-installer
+  # You may pin to the exact commit or the version.
+  # uses: sigstore/cosign-installer@9becc617647dfa20ae7b1151972e9b3a2c338a2b
+  uses: sigstore/cosign-installer@v2.8.1
+  with:
+    # cosign release version to be installed
+    cosign-release: # optional, default is v1.13.1
+    # Where to install the cosign binary
+    install-dir: # optional, default is $HOME/.cosign
+    # set to true if install-dir location requires sudo privs
+    use-sudo: # optional, default is false
+            
+      # Sign the resulting Docker image digest except on PRs.
+
+      - name: Sign the published Docker image
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        
+        run: cosign sign --key cosign.key ${{ env.REGISTRY }}/${{ github.actor }}/${{ env.IMAGE_NAME }}/${{ github.run_id }}"
+        
+      - name: Write signing key to disk
+         run: 'echo "$KEY" > cosign.key'
+         shell: bash
+         env:
+         KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
