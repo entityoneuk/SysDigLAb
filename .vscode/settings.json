@@ -1,6 +1,5 @@
 {
     "yaml.schemas": {
-        "file:///Users/davidbelnick/.vscode/extensions/docsmsft.docs-yaml-0.2.9/out/yaml-support/toc.schema.json": "/toc\\.yml/i",
         "https://json.schemastore.org/github-action.json": "file:///Users/davidbelnick/GitHub/SysDigLAb/signedimages/docker-publishx.yaml"
     }
 }

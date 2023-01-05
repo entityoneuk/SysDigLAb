@@ -1,0 +1,6 @@
+davidbelnick$ helm install sysdig-admission-controller \
+> -- create-namespace \
+> -- namespace sysdig-admission-controller \
+> -- set sysdig.agentKey=d7309652-1652-4362-8a0d-76ac1052651c \
+> -- set sysdig.secureAPIToken=09a33d76-aad9-4b8b-96a3-8b9ee7d9570a \
+> -- set clusterName=minikube

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sysdig-agent
+  data:
+    dragent.yaml: 
+        k8s_cluster_name: minikube
+        collector: ingest.us4.sysdig.com
+        collector_port: 7765
+        ssl: false
+        tags: department:davidb,region:us4

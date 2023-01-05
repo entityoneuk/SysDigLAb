@@ -1,7 +1,7 @@
 Lab working Document
 
 BACKGROUND
-------------------
+---------------------
 
 - OpenSSF - Sigstore project method for guaranteeing the end-to-end integrity of software artifacts.
 - Why? Software supply-chain security is the area where threat actors are focussed, and these are increasing exponentially. SolarWinds is a good example of the devestating effects.

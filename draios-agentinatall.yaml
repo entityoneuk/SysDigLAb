@@ -1,0 +1,5 @@
+apt-get -y install draios-agent
+echo customerid: 09a33d76-aad9-4b8b-96a3-8b9ee7d9570a >> /opt/draios/etc/dragent.yaml
+echo collector: ingest.us4.sysdig.com >> /opt/draios/etc/dragent.yaml
+echo ssl: false >> /opt/draios/etc/dragent.yaml
+service dragent restart

@@ -2,19 +2,26 @@
 ==================
 
 Introduction
-------------
+---------------
 
-This Test Lab includes the components to conduct a Proof of Concept of image signature and verification in Kubernetes clusters (on a Mac using OSX with Docker Desktop and MiniKube Installed) leveraging the SysDig UI.
+This Test Lab includes the components to conduct a Proof of Concept of image signature and verification in Kubernetes clusters (on a Mac using OSX with Docker Desktop and MiniKube Installed) leveraging the SysDig Events API.
 
-User Resources
---------------
+Flow
+--------
 
-* OCI Registry
-* Cosign
-* Connaisseur
-* SysDig Agent Implementation for Docker Desktop and MiniKube
+* Create a .dockerfile
+* Code in a webserver (NginX) running on Alpine
+* Build the Image
+* Tag the Image for access to (OCI)
+* Push the Image to the Repo
+* 
+* 
+* 
+OCI Registry - We will use Docker Hub
+* Cosign - 
+* Connaisseur / Kyverno (Govern)
+* SysDig Agent Implementation for K8S MiniKube
 * SysDig events UI Setup and Integration
-* Minikube with three NS "default" , "block" , "warn"
 
 Extended Flow
 --------------
@@ -22,6 +29,15 @@ Extended Flow
 * Use Cosign (to sign images) and Connaisseur (to verify OCI image signatures) in K8s.
 * Implement the SysDig events UI to then alert on blocked or non-compliant Images
 * Implement rules to BLOCK unsigned images in NAMESPACE "block", ALLOW unsigned images in NS "WARN" (and any others) but alert as an event to the Sysdig UI.
+
+
+Kyverno - Admission Controller
+-------------------
+
+- Allows policies to be written in yaml
+- 
+
+
 
 Workflow & Diagram
 -------------------
@@ -32,22 +48,6 @@ OSX Implementation
 
 - Install Docker Desktop
 - Install Minikube and kubectl 
-
-* Install Docker Agent
-
-docker run -d --name sysdig-agent --restart always --privileged --net host --pid host \
-    -e ACCESS_KEY=$KEY \
-    -e COLLECTOR=ingest.us4.sysdig.com \
-    -e SECURE=true \
-    -v /var/run/docker.sock:/host/var/run/docker.sock \
-    -v /dev:/host/dev \
-    -v /proc:/host/proc:ro \
-    -v /boot:/host/boot:ro \
-    -v /lib/modules:/host/lib/modules:ro \
-    -v /usr:/host/usr:ro \
-    -v /etc:/host/etc:ro \
-    --shm-size=512m \
-    quay.io/sysdig/agent
 
 * Create SysDig Kubernetes Agent (Using Helm)
 
@@ -64,6 +64,9 @@ helm install sysdig-agent --namespace sysdig-agent \
     sysdig/sysdig-deploy
 
 * Install Admission Controller
+
+
+SysDig Node analysers
 
  helm install sysdig sysdig/sysdig-deploy \
     --create-namespace -n sysdig \
@@ -110,4 +113,20 @@ helm install \
     --set global.clusterConfig.name='minikube' \
     sysdig/sysdig-deploy
 
+
+* Install Docker Agent * Additional Requirement to LAB
+
+docker run -d --name sysdig-agent --restart always --privileged --net host --pid host \
+    -e ACCESS_KEY=$KEY \
+    -e COLLECTOR=ingest.us4.sysdig.com \
+    -e SECURE=true \
+    -v /var/run/docker.sock:/host/var/run/docker.sock \
+    -v /dev:/host/dev \
+    -v /proc:/host/proc:ro \
+    -v /boot:/host/boot:ro \
+    -v /lib/modules:/host/lib/modules:ro \
+    -v /usr:/host/usr:ro \
+    -v /etc:/host/etc:ro \
+    --shm-size=512m \
+    quay.io/sysdig/agent
 
